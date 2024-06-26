@@ -1,0 +1,46 @@
+spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+  application:
+    name: finance
+  datasource:
+    url: jdbc:h2:mem:finance;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: lfp
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      ## 代表始终初始化resource下的sql脚本
+      mode: always
+  data:
+    redis:
+      host: 192.168.88.21
+      port: 6379
+      password:
+      database: 1
+
+mybatis-plus:
+  mapper-locations: classpath:/mappers/**/*.xml
+  type-aliases-package: com.example.demo.finance.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+# 自定义代理配置，大陆环境网络限制，需要开启代理
+proxy:
+  enabled: true
+  host: localhost
+  port: 10809
+
+
+
