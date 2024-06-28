@@ -1,11 +1,10 @@
 package com.example.demo.finance.schedule;
 
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.example.demo.finance.dto.AssetPriceDTO;
 import com.example.demo.finance.service.AssetServiceI;
 import com.example.demo.finance.service.YahooFinanceServiceI;
-import com.example.demo.finance.websocket.MyWebSocketHandler;
+import com.example.demo.finance.websocket.AssetWebSocketHandler;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class AssetTask {
     private YahooFinanceServiceI yahooFinanceService;
 
     @Resource
-    private MyWebSocketHandler myWebSocketHandler;
+    private AssetWebSocketHandler assetWebSocketHandler;
 
 
 
@@ -41,11 +40,10 @@ public class AssetTask {
             BigDecimal latestPrice = yahooFinanceService.fetchCurrentPrice(s);
             BigDecimal assetPrice = assetService.getAssetPrice(s);
             if (latestPrice.compareTo(assetPrice) != 0) {
-                log.info("更新了{}的价格为：{}",s,latestPrice);
+                log.info("获取缓存中{}最新价格：{}",s,assetPrice);
                 assetService.updateAssetPrice(s, latestPrice);
-                BigDecimal assetPrice1 = assetService.getAssetPrice(s);
-                log.info("获取结果最新价格：{}",assetPrice1);
-                myWebSocketHandler.broadcast(JSONUtil.toJsonStr(new AssetPriceDTO(s,latestPrice)));
+                log.info("拉取yahoo实时价格更新了{}的价格为：{}",s,latestPrice);
+                assetWebSocketHandler.broadcast(new AssetPriceDTO(s,latestPrice));
             }
         });
     }

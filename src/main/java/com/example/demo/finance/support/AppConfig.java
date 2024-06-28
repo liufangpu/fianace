@@ -34,7 +34,7 @@ public class AppConfig {
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofHours(1))  // 设置缓存有效期一小时
+                .entryTtl(Duration.ofMinutes(1))  // 设置缓存有效期一分钟
                 .disableCachingNullValues();   // 不缓存空值
 
         return RedisCacheManager.builder(connectionFactory)

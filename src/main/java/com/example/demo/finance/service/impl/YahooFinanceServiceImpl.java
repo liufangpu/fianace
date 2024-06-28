@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 @Slf4j
@@ -42,8 +43,8 @@ public class YahooFinanceServiceImpl implements YahooFinanceServiceI {
 
         YahooResponse.Result result = response.getChart().getResult().get(0);
         double regularMarketPrice = result.getMeta().getRegularMarketPrice();
-
-        return new BigDecimal(regularMarketPrice);
+        //避免精度问题，采用String包装
+        return new BigDecimal(String.valueOf(regularMarketPrice));
     }
 
 }

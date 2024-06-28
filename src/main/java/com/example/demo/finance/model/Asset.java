@@ -23,4 +23,7 @@ public class Asset {
     @TableField("last_price")
     private BigDecimal lastPrice;
 
+    @TableField("person_id")
+    private Long personId;
+
 }
