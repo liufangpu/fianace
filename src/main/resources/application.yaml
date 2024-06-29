@@ -21,7 +21,7 @@ spring:
       mode: always
   data:
     redis:
-      host: 192.168.88.21
+      host: 192.168.88.26
       port: 6379
       password:
       database: 1
@@ -38,7 +38,7 @@ springdoc:
     path: /swagger-ui.html
 # 自定义代理配置，大陆环境网络限制，需要开启代理
 proxy:
-  enabled: true
+  enabled: false
   host: localhost
   port: 10809
 
